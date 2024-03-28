@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+void max_profit(int stock_prices[], int n) {
+    if (n < 2) {
+        printf("Cannot make a profit with less than 2 prices.\n");
+        return;
+    }
+    
+    int min_price = stock_prices[0];
+    int max_profit = 0;
+    int buy_day = 0;
+    int sell_day = 0;
+    int current_buy_day = 0;
+
+    for (int i = 1; i < n; i++) {
+        if (stock_prices[i] - min_price > max_profit) {
+            max_profit = stock_prices[i] - min_price;
+            buy_day = current_buy_day;
+            sell_day = i;
+        }
+        if (stock_prices[i] < min_price) {
+            min_price = stock_prices[i];
+            current_buy_day = i;
+        }
+    }
+
+    if (max_profit > 0) {
+        printf("Buying Day: %d\n", buy_day + 1);
+        printf("Selling Day: %d\n", sell_day + 1);
+        printf("Profit: $%d\n", max_profit);
+    } else {
+        printf("No profit can be made.\n");
+    }
+}
+
+int main() {
+    int stock_prices[] = {2, 55, 7, 8, 10, 11, 44};
+    int n = sizeof(stock_prices) / sizeof(stock_prices[0]);
+
+    max_profit(stock_prices, n);
+
+    return 0;
+}
+
